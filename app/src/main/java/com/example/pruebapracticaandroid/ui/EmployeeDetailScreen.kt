@@ -12,17 +12,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.pruebapracticaandroid.R
 import com.example.pruebapracticaandroid.activities.DirectoryActivity
 
 import com.example.pruebapracticaandroid.model.Employee
-import java.text.Normalizer
 
 @Composable
 fun EmployeeDetailScreen(employee: Employee) {
@@ -66,28 +69,34 @@ fun AppBar() {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "Back to Directory",
-                        tint = Color(android.graphics.Color.WHITE)
+                        tint = Color.Black
                     )
                 }
             }
-        }
+        },
+        backgroundColor = Color.White
     )
 }
 
 @Composable
 fun EmployeeDetails(modifier: Modifier, employee: Employee) {
     Column(modifier = modifier) {
+        Spacer(modifier = Modifier.padding(8.dp))
         EmployeePicture(
             imageId = employee.imageId,
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
+        Spacer(modifier = Modifier.padding(4.dp))
         EmployeeName(
             name = "${employee.name} ${employee.surname} ",
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
+        Spacer(modifier = Modifier.padding(2.dp))
         EmployeeJob(job = employee.job, modifier = Modifier.align(Alignment.CenterHorizontally))
+        Spacer(modifier = Modifier.padding(8.dp))
         Divider(color = Color.Gray, thickness = 0.5.dp)
         ContactButtons()
+        Spacer(modifier = Modifier.padding(6.dp))
         Divider(color = Color.Gray, thickness = 0.5.dp)
         EmployeePhone(phone = employee.phone, modifier = Modifier.align(Alignment.Start))
         EmployeeMail(mail = employee.mail, modifier = Modifier.align(Alignment.Start))
@@ -101,24 +110,26 @@ fun EmployeePicture(imageId: Int, modifier: Modifier) {
         contentDescription = "Profile picture",
         contentScale = ContentScale.Crop,
         modifier = modifier
-            .size(64.dp)
+            .size(78.dp)
             .clip(CircleShape)
     )
 }
 
 @Composable
 fun EmployeeName(name: String, modifier: Modifier) {
-    Text(text = name, modifier = modifier)
+    Text(text = name, modifier = modifier, fontWeight = FontWeight.Bold, fontSize = 20.sp)
 }
 
 @Composable
 fun EmployeeJob(job: String, modifier: Modifier) {
-    Text(text = job, modifier = modifier)
+    Text(text = job, modifier = modifier.alpha(ContentAlpha.medium), fontSize = 12.sp)
 }
 
 @Composable
-fun ContactButtons(){
-    Row(modifier = Modifier.fillMaxWidth()) {
+fun ContactButtons() {
+    Row(
+        modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
         Icon(
             painter = painterResource(id = R.drawable.telephone),
             contentDescription = "Call employee",
@@ -137,12 +148,28 @@ fun ContactButtons(){
 }
 
 @Composable
-fun EmployeePhone(phone : Int, modifier: Modifier){
-    Text(text = "$phone", modifier = modifier)
+fun EmployeePhone(phone: Int, modifier: Modifier) {
+    Text(text = "$phone", modifier = modifier.alpha(ContentAlpha.medium).padding(top = 24.dp, start = 18.dp), fontSize = 14.sp)
 }
 
 
 @Composable
-fun EmployeeMail(mail : String, modifier: Modifier){
-    Text(text = mail, modifier = modifier)
+fun EmployeeMail(mail: String, modifier: Modifier) {
+    Text(text = mail, modifier = modifier.alpha(ContentAlpha.medium).padding(top = 24.dp, start = 18.dp), fontSize = 14.sp)
+}
+
+@Preview
+@Composable
+fun PreviewEmployeeDetailScreen() {
+    EmployeeDetailScreen(
+        Employee(
+            id = 0,
+            name = "Antonio",
+            surname = "García Gutierrez",
+            job = "Técnico de RRHH",
+            phone = 987654321,
+            mail = "antonio.garcia@demo.com",
+            imageId = 0
+        )
+    )
 }

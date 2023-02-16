@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.example.pruebapracticaandroid.R
 import com.example.pruebapracticaandroid.activities.DirectoryActivity
 import com.example.pruebapracticaandroid.activities.EmployeeDetailActivity
+import com.example.pruebapracticaandroid.activities.LoginActivity
 import com.example.pruebapracticaandroid.directoryData.DirectoryData
 import com.example.pruebapracticaandroid.model.MainViewModel
 import com.example.pruebapracticaandroid.model.SearchWidgetState
@@ -46,7 +47,7 @@ fun DirectoryScreen(mainViewModel: MainViewModel) {
             searchWidgetState = searchWidgetState,
             searchTextState = searchTextState,
             onTextChange = {
-                           mainViewModel.updateSearchTextState(newValue = it)
+                mainViewModel.updateSearchTextState(newValue = it)
             },
             onCloseClicked = {
                 mainViewModel.updateSearchTextState(newValue = "")
@@ -93,6 +94,7 @@ fun MainAppBar(
 @Composable
 fun AppBar(onSearchClicked: () -> Unit) {
     var showMenu by remember { mutableStateOf(false) }
+    val currentContext = LocalContext.current
 
     TopAppBar(
         title = {
@@ -135,7 +137,14 @@ fun AppBar(onSearchClicked: () -> Unit) {
                 expanded = showMenu,
                 onDismissRequest = { showMenu = false }
             ) {
-                DropdownMenuItem(onClick = { /*TODO*/ }) {
+                DropdownMenuItem(onClick = {
+                    currentContext.startActivity(
+                        Intent(
+                            currentContext,
+                            LoginActivity::class.java
+                        ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    )
+                }) {
                     Icon(
                         painter = painterResource(id = R.drawable.logout),
                         contentDescription = "Log out",
@@ -179,8 +188,7 @@ fun SearchAppBar(
             },
             singleLine = true,
             leadingIcon = {
-                IconButton(modifier = Modifier.alpha(ContentAlpha.medium),
-                    onClick = { }) {
+                IconButton(modifier = Modifier.alpha(ContentAlpha.medium), onClick = { }) {
                     Icon(
                         imageVector = Icons.Default.Search,
                         contentDescription = "Search Icon",
