@@ -1,21 +1,15 @@
-package com.example.pruebapracticaandroid.ui.register
+package com.example.pruebapracticaandroid.ui
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
-import androidx.compose.material.Icon
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.pruebapracticaandroid.R
-import com.example.pruebapracticaandroid.ui.BottomImage
-import com.example.pruebapracticaandroid.ui.EmailField
-import com.example.pruebapracticaandroid.ui.HeaderImage
-import com.example.pruebapracticaandroid.ui.PasswordField
+import com.example.pruebapracticaandroid.ui.theme.LightEndalia
 
 @Composable
 fun RegisterScreen() {
@@ -46,7 +40,11 @@ fun Register(modifier: Modifier) {
 
 @Composable
 fun CreateAccounButton() {
-    Button(onClick = { /*TODO*/ }, modifier = Modifier.fillMaxWidth()) {
-        Text(text = "CREAR CUENTA")
+    Button(
+        onClick = { /*TODO*/ },
+        modifier = Modifier.fillMaxWidth(),
+        colors = ButtonDefaults.buttonColors(backgroundColor = LightEndalia)
+    ) {
+        Text(text = "CREAR CUENTA", color = Color.White)
     }
 }

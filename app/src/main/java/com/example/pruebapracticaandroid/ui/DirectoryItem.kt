@@ -3,16 +3,19 @@ package com.example.pruebapracticaandroid.ui
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.pruebapracticaandroid.R
-import com.example.pruebapracticaandroid.model.Employee
+import com.example.pruebapracticaandroid.data.models.Employee
 
 @Composable
 fun DirectoryItem(employee: Employee) {
@@ -27,13 +30,18 @@ fun DirectoryItem(employee: Employee) {
         Image(
             painter = painterResource(id = R.drawable.endalia_isotipo_512),
             contentDescription = "Image",
-            modifier = Modifier.height(50.dp)
+            modifier = Modifier
+                .size(50.dp)
+                .clip(CircleShape)
         )
-        Column(modifier = Modifier
-            .background(Color.White)
-            .fillMaxWidth()) {
-            Text(text = "${employee.surname}, ${employee.name}")
-            Text(text = employee.job)
+        Column(
+            modifier = Modifier
+                .background(Color.White)
+                .fillMaxWidth()
+        ) {
+            Text(text = "${employee.surname}, ${employee.name}", fontSize = 18.sp)
+            Spacer(modifier = Modifier.padding(2.dp))
+            Text(text = employee.job, color = Color.Gray)
         }
     }
 }

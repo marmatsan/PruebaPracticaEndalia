@@ -1,7 +1,6 @@
 package com.example.pruebapracticaandroid.directoryData
 
-import androidx.compose.ui.text.toLowerCase
-import com.example.pruebapracticaandroid.model.Employee
+import com.example.pruebapracticaandroid.data.models.Employee
 import java.text.Normalizer
 import kotlin.random.Random
 

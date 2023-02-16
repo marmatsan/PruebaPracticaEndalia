@@ -25,7 +25,8 @@ import androidx.compose.ui.unit.sp
 import com.example.pruebapracticaandroid.R
 import com.example.pruebapracticaandroid.activities.DirectoryActivity
 
-import com.example.pruebapracticaandroid.model.Employee
+import com.example.pruebapracticaandroid.data.models.Employee
+import com.example.pruebapracticaandroid.ui.theme.LightEndalia
 
 @Composable
 fun EmployeeDetailScreen(employee: Employee) {
@@ -88,15 +89,16 @@ fun EmployeeDetails(modifier: Modifier, employee: Employee) {
         )
         Spacer(modifier = Modifier.padding(4.dp))
         EmployeeName(
-            name = "${employee.name} ${employee.surname} ",
+            name = "${employee.name} ${employee.surname}",
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
         Spacer(modifier = Modifier.padding(2.dp))
         EmployeeJob(job = employee.job, modifier = Modifier.align(Alignment.CenterHorizontally))
-        Spacer(modifier = Modifier.padding(8.dp))
+        Spacer(modifier = Modifier.padding(14.dp))
         Divider(color = Color.Gray, thickness = 0.5.dp)
+        Spacer(modifier = Modifier.padding(4.dp))
         ContactButtons()
-        Spacer(modifier = Modifier.padding(6.dp))
+        Spacer(modifier = Modifier.padding(10.dp))
         Divider(color = Color.Gray, thickness = 0.5.dp)
         EmployeePhone(phone = employee.phone, modifier = Modifier.align(Alignment.Start))
         EmployeeMail(mail = employee.mail, modifier = Modifier.align(Alignment.Start))
@@ -110,19 +112,19 @@ fun EmployeePicture(imageId: Int, modifier: Modifier) {
         contentDescription = "Profile picture",
         contentScale = ContentScale.Crop,
         modifier = modifier
-            .size(78.dp)
+            .size(120.dp)
             .clip(CircleShape)
     )
 }
 
 @Composable
 fun EmployeeName(name: String, modifier: Modifier) {
-    Text(text = name, modifier = modifier, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+    Text(text = name, modifier = modifier, fontWeight = FontWeight.Bold, fontSize = 26.sp)
 }
 
 @Composable
 fun EmployeeJob(job: String, modifier: Modifier) {
-    Text(text = job, modifier = modifier.alpha(ContentAlpha.medium), fontSize = 12.sp)
+    Text(text = job, modifier = modifier.alpha(ContentAlpha.medium), fontSize = 16.sp)
 }
 
 @Composable
@@ -134,28 +136,40 @@ fun ContactButtons() {
             painter = painterResource(id = R.drawable.telephone),
             contentDescription = "Call employee",
             modifier = Modifier
-                .height(40.dp)
-                .padding(top = 12.dp, end = 10.dp)
+                .height(48.dp)
+                .padding(top = 12.dp, end = 10.dp),
+            tint = LightEndalia
         )
         Icon(
             painter = painterResource(id = R.drawable.email),
             contentDescription = "Send email",
             modifier = Modifier
-                .height(40.dp)
-                .padding(top = 12.dp, end = 10.dp)
+                .height(48.dp)
+                .padding(top = 12.dp, end = 10.dp),
+            tint = LightEndalia
         )
     }
 }
 
 @Composable
 fun EmployeePhone(phone: Int, modifier: Modifier) {
-    Text(text = "$phone", modifier = modifier.alpha(ContentAlpha.medium).padding(top = 24.dp, start = 18.dp), fontSize = 14.sp)
+    Text(
+        text = "$phone",
+        modifier = modifier
+            .padding(top = 36.dp, start = 24.dp),
+        fontSize = 16.sp,
+    )
 }
 
 
 @Composable
 fun EmployeeMail(mail: String, modifier: Modifier) {
-    Text(text = mail, modifier = modifier.alpha(ContentAlpha.medium).padding(top = 24.dp, start = 18.dp), fontSize = 14.sp)
+    Text(
+        text = mail,
+        modifier = modifier
+            .padding(top = 36.dp, start = 24.dp),
+        fontSize = 16.sp
+    )
 }
 
 @Preview

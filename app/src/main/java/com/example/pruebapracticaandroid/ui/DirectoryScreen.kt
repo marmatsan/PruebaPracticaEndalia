@@ -2,7 +2,9 @@ package com.example.pruebapracticaandroid.ui
 
 import android.content.Intent
 import android.util.Log
-import android.widget.Toast
+import com.example.pruebapracticaandroid.ui.theme.DarkEndalia
+import com.example.pruebapracticaandroid.ui.theme.LightEndalia
+
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,7 +16,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -23,17 +24,16 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.pruebapracticaandroid.R
-import com.example.pruebapracticaandroid.activities.DirectoryActivity
 import com.example.pruebapracticaandroid.activities.EmployeeDetailActivity
 import com.example.pruebapracticaandroid.activities.LoginActivity
 import com.example.pruebapracticaandroid.directoryData.DirectoryData
-import com.example.pruebapracticaandroid.model.MainViewModel
-import com.example.pruebapracticaandroid.model.SearchWidgetState
+import com.example.pruebapracticaandroid.data.models.MainViewModel
+import com.example.pruebapracticaandroid.data.models.SearchWidgetState
 import com.google.gson.Gson
 
 @Composable
@@ -107,11 +107,12 @@ fun AppBar(onSearchClicked: () -> Unit) {
                     contentDescription = "TopAppBarColor",
                     modifier = Modifier
                         .height(24.dp)
-                        .padding(end = 24.dp),
+                        .padding(top = 2.dp, end = 24.dp),
                     tint = Color.Unspecified
                 )
                 Text(
-                    text = "Directorio"
+                    text = "Directorio",
+                    color = DarkEndalia
                 )
             }
         },
@@ -122,7 +123,7 @@ fun AppBar(onSearchClicked: () -> Unit) {
                 Icon(
                     imageVector = Icons.Filled.Search,
                     contentDescription = "Search Icon",
-                    tint = Color(android.graphics.Color.WHITE)
+                    tint = LightEndalia
                 )
             }
             IconButton(onClick = {
@@ -151,13 +152,15 @@ fun AppBar(onSearchClicked: () -> Unit) {
                         modifier = Modifier
                             .height(12.dp)
                             .padding(
-                                end = 10.dp
-                            )
+                                end = 20.dp
+                            ),
+                        tint = LightEndalia
                     )
                     Text(text = "Cerrar sesión")
                 }
             }
-        }
+        },
+        backgroundColor = Color.White
     )
 }
 
@@ -217,6 +220,10 @@ fun SearchAppBar(
                 onSearch = {
                     onSearchClicked(text)
                 }
+            ),
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = Color.White,
+                textColor = Color.Black
             )
         )
     }
@@ -238,8 +245,9 @@ fun DirectoryContainer() {
                     text = header.toString(),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 42.dp, top = 12.dp, bottom = 12.dp),
-                    fontWeight = FontWeight.Bold
+                        .padding(start = 44.dp, top = 18.dp, bottom = 12.dp),
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Gray
                 )
             }
             items(items = items) { employee ->
@@ -254,4 +262,10 @@ fun DirectoryContainer() {
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun PreviewDirectoryScreen() {
+    DirectoryScreen(mainViewModel = MainViewModel())
 }

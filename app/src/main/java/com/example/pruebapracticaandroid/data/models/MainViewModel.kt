@@ -1,4 +1,4 @@
-package com.example.pruebapracticaandroid.model
+package com.example.pruebapracticaandroid.data.models
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State

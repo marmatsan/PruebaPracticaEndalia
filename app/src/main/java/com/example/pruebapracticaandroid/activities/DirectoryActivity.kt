@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import com.example.pruebapracticaandroid.model.MainViewModel
+import com.example.pruebapracticaandroid.data.models.MainViewModel
 import com.example.pruebapracticaandroid.ui.DirectoryScreen
 import com.example.pruebapracticaandroid.ui.theme.PruebaPracticaAndroidTheme
 

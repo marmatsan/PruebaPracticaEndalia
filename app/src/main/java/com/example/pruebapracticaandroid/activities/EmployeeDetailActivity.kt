@@ -3,9 +3,8 @@ package com.example.pruebapracticaandroid.activities
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.example.pruebapracticaandroid.model.Employee
+import com.example.pruebapracticaandroid.data.models.Employee
 import com.example.pruebapracticaandroid.ui.EmployeeDetailScreen
-import com.example.pruebapracticaandroid.ui.LoginScreen
 import com.example.pruebapracticaandroid.ui.theme.PruebaPracticaAndroidTheme
 import com.google.gson.Gson
 
