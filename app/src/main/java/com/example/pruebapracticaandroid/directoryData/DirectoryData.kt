@@ -1,6 +1,8 @@
 package com.example.pruebapracticaandroid.directoryData
 
+import androidx.compose.ui.text.toLowerCase
 import com.example.pruebapracticaandroid.model.Employee
+import java.text.Normalizer
 import kotlin.random.Random
 
 class DirectoryData {
@@ -224,16 +226,27 @@ class DirectoryData {
 
     fun getData(): List<Employee> {
         val listOfEmployees = mutableListOf<Employee>()
+        val shortedSurnames = surnames.sortedBy { it }
 
-        for (number in names.indices) {
+        for (number in shortedSurnames.indices) {
+            val unnormalizedName = names[number]
+            val unnormalizedFirstSurname = shortedSurnames[number].split(" ")[0]
+            val regex = Regex("\\p{InCombiningDiacriticalMarks}")
+
+            val name = Normalizer.normalize(unnormalizedName, Normalizer.Form.NFD)
+            val firstSurname = Normalizer.normalize(unnormalizedFirstSurname, Normalizer.Form.NFD)
+
+            val normalizedName = name.replace(regex = regex, replacement = "").lowercase()
+            val normalizedfirstSurname = firstSurname.replace(regex = regex, replacement = "").lowercase()
+
             listOfEmployees.add(
                 Employee(
                     id = number,
                     name = names[number],
-                    surname = surnames[number],
+                    surname = shortedSurnames[number],
                     job = if (number == 99) jobs.last() else jobs[Random.nextInt(7)],
                     phone = Random.nextInt(900000000, 1000000000),
-                    mail = surnames[number].split(" ")[0].plus("@demo.com"),
+                    mail = normalizedName.plus(".").plus(normalizedfirstSurname).plus("@demo.com"),
                     imageId = number
                 )
             )
