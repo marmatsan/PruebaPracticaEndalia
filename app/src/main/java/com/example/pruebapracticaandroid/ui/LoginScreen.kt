@@ -1,7 +1,9 @@
 package com.example.pruebapracticaandroid.ui
 
 import android.content.Intent
+import android.util.Log
 import android.util.Patterns
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -14,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.preference.PreferenceManager
 import com.example.pruebapracticaandroid.activities.DirectoryActivity
 import com.example.pruebapracticaandroid.activities.RegisterActivity
 import com.example.pruebapracticaandroid.data.models.TextFieldState
@@ -31,14 +34,14 @@ fun LoginScreen() {
     }
 }
 
-fun validate(email: String, password: String): Boolean {
-    var validEmail = false
+fun validate(email: String, password: String): Pair<String, String> {
+    var userData: Pair<String, String> = Pair("", "")
     if (email.isNotEmpty() && password.isNotEmpty()) {
         if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            validEmail = true
+            userData = Pair(email, password)
         }
     }
-    return validEmail
+    return userData
 }
 
 @Composable
@@ -53,19 +56,39 @@ fun Login(modifier: Modifier) {
         Spacer(modifier = Modifier.padding(16.dp))
         PasswordField(placeholder = "Contraseña", passwordState = passwordState)
         Spacer(modifier = Modifier.padding(24.dp))
-        LoginButton(valid = validate(email = emailState.text, password = passwordState.text))
+        LoginButton(pair = validate(email = emailState.text, password = passwordState.text))
         RegisterButton()
     }
 }
 
 @Composable
-fun LoginButton(valid: Boolean) {
+fun LoginButton(pair: Pair<String, String>) {
     val currentContext = LocalContext.current
     Button(
         onClick = {
-            if (valid) {
-                currentContext.startActivity(Intent(currentContext, DirectoryActivity::class.java))
+            val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(currentContext)
+
+            Log.d("LOGIN MAILTEXT", "USERNAME: " + pair.first)
+            Log.d("LOGIN PASSWORDTEXT", "PASSWORD: " + pair.second)
+
+            if (!(pair.first == "" || pair.second == "")) {
+                val userName = sharedPreferences.getString(pair.first, "NO_EXIST")
+                val userPassword = sharedPreferences.getString(pair.second, "NO_EXIST")
+
+                Log.d("LOGIN USERNAME", if (userName.toString().isEmpty()) "USERNAME EMPTY" else userName.toString())
+                Log.d("LOGIN PASSWORD", if (userPassword.toString().isEmpty()) "PASSWORD EMPTY" else userName.toString())
+
+                if (userName == "NO_EXIST" || userPassword == "NO_EXIST") { // User does not exist
+                    Toast.makeText(currentContext, "El usuario no existe", Toast.LENGTH_LONG).show()
+                } else { // User exists
+                    Toast.makeText(currentContext, "Iniciando sesión", Toast.LENGTH_LONG).show()
+                    currentContext.startActivity(Intent(currentContext, DirectoryActivity::class.java))
+                }
+
+            } else {
+                Toast.makeText(currentContext, "Comprueba los campos", Toast.LENGTH_LONG).show()
             }
+
         },
         modifier = Modifier.fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
