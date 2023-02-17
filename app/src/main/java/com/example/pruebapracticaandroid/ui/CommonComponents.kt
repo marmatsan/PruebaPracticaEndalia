@@ -2,16 +2,21 @@ package com.example.pruebapracticaandroid.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.pruebapracticaandroid.R
+import com.example.pruebapracticaandroid.data.models.TextFieldState
 import com.example.pruebapracticaandroid.ui.theme.LightEndalia
 
 @Composable
@@ -27,7 +32,7 @@ fun HeaderImage(modifier: Modifier) {
 }
 
 @Composable
-fun EmailField() {
+fun EmailField(emailState : TextFieldState = remember { TextFieldState() }) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -41,8 +46,10 @@ fun EmailField() {
             tint = LightEndalia
         )
         TextField(
-            value = "",
-            onValueChange = {},
+            value = emailState.text,
+            onValueChange = {
+                emailState.text = it
+            },
             modifier = Modifier.fillMaxWidth(),
             placeholder = {
                 Text(
@@ -50,12 +57,12 @@ fun EmailField() {
                 )
             },
             colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.Transparent)
-            )
+        )
     }
 }
 
 @Composable
-fun PasswordField() {
+fun PasswordField(placeholder : String, passwordState : TextFieldState = remember { TextFieldState() }) {
     Row(modifier = Modifier.fillMaxWidth()) {
         Icon(
             painter = painterResource(id = R.drawable.password_logo),
@@ -66,15 +73,18 @@ fun PasswordField() {
             tint = LightEndalia
         )
         TextField(
-            value = "",
-            onValueChange = {},
+            value = passwordState.text,
+            onValueChange = {
+                passwordState.text = it
+            },
             modifier = Modifier.fillMaxWidth(),
             placeholder = {
                 Text(
-                    text = "Contraseña"
+                    text = placeholder
                 )
             },
-            colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.Transparent)
+            colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.Transparent),
+            visualTransformation = PasswordVisualTransformation()
         )
     }
 }

@@ -11,7 +11,6 @@ import kotlinx.parcelize.Parcelize
 @Entity(tableName = "employees")
 data class Employee(
     @PrimaryKey(autoGenerate = false)
-    @NonNull
     @ColumnInfo(name = "id")
     val id: Int,
     @ColumnInfo(name = "name")
