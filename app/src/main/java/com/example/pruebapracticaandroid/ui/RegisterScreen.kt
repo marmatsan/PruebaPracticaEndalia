@@ -1,8 +1,6 @@
 package com.example.pruebapracticaandroid.ui
 
 import android.content.Intent
-import android.content.SharedPreferences
-import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
@@ -16,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.preference.PreferenceManager
 import com.example.pruebapracticaandroid.activities.DirectoryActivity
+import com.example.pruebapracticaandroid.data.models.RegisteredUsers
 import com.example.pruebapracticaandroid.data.models.TextFieldState
 import com.example.pruebapracticaandroid.ui.theme.LightEndalia
 
@@ -78,20 +76,19 @@ fun CreateAccountButton(pair: Pair<String, String>) {
 
     Button(
         onClick = {
-            val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(currentContext)
-
             if (!(pair.first == "" || pair.second == "")) {
-                val userName = sharedPreferences.getString(pair.first, "NO_EXIST")
-                val userPassword = sharedPreferences.getString(pair.second, "NO_EXIST")
+                val registeredUsers = RegisteredUsers.loggedUsers
 
-                Log.d("REGISTER GET USERNAME", userName.toString())
-                Log.d("REGISTER GET PASSWORD", userPassword.toString())
+                val userEmailExists = registeredUsers.filter {
+                    it.mail == pair.first
+                }.size == 1
 
-                if (userName == "NO_EXIST" || userPassword == "NO_EXIST") { // User not created
+                val userPasswordExists = registeredUsers.filter {
+                    it.password == pair.second
+                }.size == 1
+
+                if (!(userEmailExists || userPasswordExists)) { // User not created
                     Toast.makeText(currentContext, "Creando usuario", Toast.LENGTH_LONG).show()
-
-                    sharedPreferences.edit().putString(pair.first, "ERROR").apply()
-                    sharedPreferences.edit().putString(pair.second, "ERROR").apply()
 
                     currentContext.startActivity(
                         Intent(

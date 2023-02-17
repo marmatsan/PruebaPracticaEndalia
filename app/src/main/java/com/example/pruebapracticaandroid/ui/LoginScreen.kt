@@ -66,17 +66,7 @@ fun LoginButton(pair: Pair<String, String>) {
     val currentContext = LocalContext.current
     Button(
         onClick = {
-            val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(currentContext)
-
-            Log.d("LOGIN MAILTEXT", "USERNAME: " + pair.first)
-            Log.d("LOGIN PASSWORDTEXT", "PASSWORD: " + pair.second)
-
             if (!(pair.first == "" || pair.second == "")) {
-                val userName = sharedPreferences.getString(pair.first, "NO_EXIST")
-                val userPassword = sharedPreferences.getString(pair.second, "NO_EXIST")
-
-                Log.d("LOGIN USERNAME", if (userName.toString().isEmpty()) "USERNAME EMPTY" else userName.toString())
-                Log.d("LOGIN PASSWORD", if (userPassword.toString().isEmpty()) "PASSWORD EMPTY" else userName.toString())
 
                 if (userName == "NO_EXIST" || userPassword == "NO_EXIST") { // User does not exist
                     Toast.makeText(currentContext, "El usuario no existe", Toast.LENGTH_LONG).show()
