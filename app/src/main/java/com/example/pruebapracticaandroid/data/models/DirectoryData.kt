@@ -1,14 +1,9 @@
-package com.example.pruebapracticaandroid.directoryData
+package com.example.pruebapracticaandroid.data.models
 
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import com.example.pruebapracticaandroid.data.models.Employee
 import java.text.Normalizer
 import kotlin.random.Random
 
-class DirectoryData {
+object DirectoryData {
 
     private val names = listOf(
         "Juan",
@@ -227,8 +222,9 @@ class DirectoryData {
         "CEO"
     )
 
-    fun getData() : MutableList<Employee> {
-        val listOfEmployees = mutableListOf<Employee>()
+    val listOfEmployees = mutableListOf<Employee>()
+
+    private fun populateData() {
         val shortedSurnames = surnames.sortedBy { it }
 
         for (number in shortedSurnames.indices) {
@@ -242,15 +238,6 @@ class DirectoryData {
             val normalizedName = name.replace(regex = regex, replacement = "").lowercase()
             val normalizedfirstSurname = firstSurname.replace(regex = regex, replacement = "").lowercase()
 
-            val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
-            val canvas = Canvas(bitmap)
-
-            val paint = Paint()
-            paint.color = Color.BLACK
-            paint.style = Paint.Style.FILL
-
-            canvas.drawText("${normalizedName.first().uppercaseChar()}${normalizedfirstSurname.first().uppercaseChar()}", 25F, 25F, paint)
-
             listOfEmployees.add(
                 Employee(
                     name = names[number],
@@ -262,7 +249,10 @@ class DirectoryData {
                 )
             )
         }
-
-        return listOfEmployees
     }
+
+    init {
+        populateData()
+    }
+
 }

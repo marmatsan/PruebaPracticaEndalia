@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.example.pruebapracticaandroid.R
 import com.example.pruebapracticaandroid.activities.EmployeeDetailActivity
 import com.example.pruebapracticaandroid.activities.LoginActivity
-import com.example.pruebapracticaandroid.directoryData.DirectoryData
+import com.example.pruebapracticaandroid.data.models.DirectoryData
 import com.example.pruebapracticaandroid.data.models.MainViewModel
 import com.example.pruebapracticaandroid.data.models.SearchWidgetState
 import com.google.gson.Gson
@@ -232,12 +232,11 @@ fun SearchAppBar(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DirectoryContainer() {
-    val directoryData = DirectoryData()
-    val data = directoryData.getData()
+    val listOfEmployees = DirectoryData.listOfEmployees
     val currentContext = LocalContext.current
 
     LazyColumn {
-        val grouped = data.groupBy { it.surname.first() }
+        val grouped = listOfEmployees.groupBy { it.surname.first() }
 
         grouped.forEach { (header, items) ->
             stickyHeader {

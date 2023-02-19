@@ -5,6 +5,8 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.widget.Toast
+import androidx.activity.OnBackPressedDispatcher
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.annotation.ColorInt
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -61,7 +63,11 @@ fun EmployeeDetailScreen(employee: Employee) {
 
 @Composable
 fun AppBar() {
-    val currentContext = LocalContext.current
+    var dispatcher: OnBackPressedDispatcher? = null
+
+    if (LocalOnBackPressedDispatcherOwner.current != null) {
+        dispatcher = LocalOnBackPressedDispatcherOwner.current!!.onBackPressedDispatcher
+    }
 
     TopAppBar(
         title = {
@@ -71,12 +77,7 @@ fun AppBar() {
             ) {
                 IconButton(
                     onClick = {
-                        currentContext.startActivity(
-                            Intent(
-                                currentContext,
-                                DirectoryActivity::class.java
-                            )
-                        )
+                        dispatcher?.onBackPressed()
                     }
                 ) {
                     Icon(

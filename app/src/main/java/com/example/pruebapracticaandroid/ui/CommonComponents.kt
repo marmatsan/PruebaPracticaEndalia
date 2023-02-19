@@ -40,7 +40,7 @@ fun HeaderImage(modifier: Modifier) {
 }
 
 @Composable
-fun EmailField(emailState : TextFieldState = remember { TextFieldState() }) {
+fun EmailField(emailState : TextFieldState) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
