@@ -1,6 +1,8 @@
 package com.example.pruebapracticaandroid.ui
 
-import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
 import android.util.Patterns
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
@@ -14,10 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.example.pruebapracticaandroid.activities.DirectoryActivity
+import com.example.pruebapracticaandroid.data.models.Employee
 import com.example.pruebapracticaandroid.data.models.RegisteredUsers
 import com.example.pruebapracticaandroid.data.models.TextFieldState
+import com.example.pruebapracticaandroid.directoryData.DirectoryData
 import com.example.pruebapracticaandroid.ui.theme.LightEndalia
+import kotlin.random.Random
 
 
 @Composable
@@ -56,15 +60,12 @@ fun Register(modifier: Modifier) {
         PasswordField(placeholder = "Contraseña", passwordState = passwordState)
         Spacer(modifier = Modifier.padding(16.dp))
         PasswordField(
-            placeholder = "Vuelve a introducir contraseña",
-            passwordState = againPasswordState
+            placeholder = "Vuelve a introducir contraseña", passwordState = againPasswordState
         )
         Spacer(modifier = Modifier.padding(24.dp))
         CreateAccountButton(
             pair = validate(
-                emailState.text,
-                passwordState.text,
-                againPasswordState.text
+                emailState.text, passwordState.text, againPasswordState.text
             )
         )
     }
@@ -76,26 +77,34 @@ fun CreateAccountButton(pair: Pair<String, String>) {
 
     Button(
         onClick = {
-            if (!(pair.first == "" || pair.second == "")) {
+            val userEmail = pair.first
+            val userPassword = pair.second
+
+            if (!(userEmail.isEmpty() || userPassword.isEmpty())) {
                 val registeredUsers = RegisteredUsers.loggedUsers
 
                 val userEmailExists = registeredUsers.filter {
-                    it.mail == pair.first
+                    it.mail == userEmail
                 }.size == 1
 
                 val userPasswordExists = registeredUsers.filter {
-                    it.password == pair.second
+                    it.password == userPassword
                 }.size == 1
 
                 if (!(userEmailExists || userPasswordExists)) { // User not created
                     Toast.makeText(currentContext, "Creando usuario", Toast.LENGTH_LONG).show()
 
-                    currentContext.startActivity(
-                        Intent(
-                            currentContext,
-                            DirectoryActivity::class.java
-                        )
+                    val newEmployee = Employee(
+                        name = userEmail,
+                        surname = userEmail.substringAfter("."),
+                        job = DirectoryData().jobs[Random.nextInt(7)],
+                        phone = Random.nextInt(900000000, 1000000000),
+                        mail = userEmail,
+                        password = userPassword
                     )
+
+                    registeredUsers.add(newEmployee)
+                    DirectoryData().getData().add(newEmployee)
 
                 } else { // User created
                     Toast.makeText(currentContext, "Usuario ya creado", Toast.LENGTH_LONG).show()

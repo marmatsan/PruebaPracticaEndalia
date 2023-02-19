@@ -1,5 +1,9 @@
 package com.example.pruebapracticaandroid.directoryData
 
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 import com.example.pruebapracticaandroid.data.models.Employee
 import java.text.Normalizer
 import kotlin.random.Random
@@ -212,7 +216,7 @@ class DirectoryData {
         "Rojas Sánchez"
     )
 
-    private val jobs = listOf(
+    val jobs = listOf(
         "Jefe de Proyectos",
         "Analista de Datos",
         "Diseñador Gráfico",
@@ -223,7 +227,7 @@ class DirectoryData {
         "CEO"
     )
 
-    fun getData(): List<Employee> {
+    fun getData() : MutableList<Employee> {
         val listOfEmployees = mutableListOf<Employee>()
         val shortedSurnames = surnames.sortedBy { it }
 
@@ -238,15 +242,23 @@ class DirectoryData {
             val normalizedName = name.replace(regex = regex, replacement = "").lowercase()
             val normalizedfirstSurname = firstSurname.replace(regex = regex, replacement = "").lowercase()
 
+            val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(bitmap)
+
+            val paint = Paint()
+            paint.color = Color.BLACK
+            paint.style = Paint.Style.FILL
+
+            canvas.drawText("${normalizedName.first().uppercaseChar()}${normalizedfirstSurname.first().uppercaseChar()}", 25F, 25F, paint)
+
             listOfEmployees.add(
                 Employee(
-                    id = number,
                     name = names[number],
                     surname = shortedSurnames[number],
                     job = if (number == 99) jobs.last() else jobs[Random.nextInt(7)],
                     phone = Random.nextInt(900000000, 1000000000),
                     mail = normalizedName.plus(".").plus(normalizedfirstSurname).plus("@demo.com"),
-                    imageId = number
+                    password = "1234"
                 )
             )
         }

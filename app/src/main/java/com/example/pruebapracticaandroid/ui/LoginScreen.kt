@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.preference.PreferenceManager
 import com.example.pruebapracticaandroid.activities.DirectoryActivity
+import com.example.pruebapracticaandroid.activities.LoginActivity
 import com.example.pruebapracticaandroid.activities.RegisterActivity
 import com.example.pruebapracticaandroid.data.models.TextFieldState
 import com.example.pruebapracticaandroid.ui.theme.LightEndalia
@@ -66,19 +67,12 @@ fun LoginButton(pair: Pair<String, String>) {
     val currentContext = LocalContext.current
     Button(
         onClick = {
-            if (!(pair.first == "" || pair.second == "")) {
-
-                if (userName == "NO_EXIST" || userPassword == "NO_EXIST") { // User does not exist
-                    Toast.makeText(currentContext, "El usuario no existe", Toast.LENGTH_LONG).show()
-                } else { // User exists
-                    Toast.makeText(currentContext, "Iniciando sesión", Toast.LENGTH_LONG).show()
-                    currentContext.startActivity(Intent(currentContext, DirectoryActivity::class.java))
-                }
-
-            } else {
-                Toast.makeText(currentContext, "Comprueba los campos", Toast.LENGTH_LONG).show()
-            }
-
+            currentContext.startActivity(
+                Intent(
+                    currentContext,
+                    DirectoryActivity::class.java
+                ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            )
         },
         modifier = Modifier.fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
