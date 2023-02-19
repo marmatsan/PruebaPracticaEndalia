@@ -62,7 +62,7 @@ fun DirectoryScreen(mainViewModel: MainViewModel) {
         )
     }) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {
-            DirectoryContainer()
+            DirectoryContainer(searchTextState = searchTextState)
         }
     }
 }
@@ -231,7 +231,7 @@ fun SearchAppBar(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun DirectoryContainer() {
+fun DirectoryContainer(searchTextState: String) {
     val listOfEmployees = DirectoryData.listOfEmployees
     val currentContext = LocalContext.current
 
@@ -239,24 +239,35 @@ fun DirectoryContainer() {
         val grouped = listOfEmployees.groupBy { it.surname.first() }
 
         grouped.forEach { (header, items) ->
-            stickyHeader {
-                Text(
-                    text = header.toString(),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 44.dp, top = 18.dp, bottom = 12.dp),
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Gray
+            val filteredItems = items.filter {
+                it.name.plus(" ").plus(it.surname).contains(
+                    searchTextState,
+                    ignoreCase = true
+                ) || it.job.contains(
+                    searchTextState,
+                    ignoreCase = true
                 )
             }
-            items(items = items) { employee ->
-                Surface(modifier = Modifier.clickable {
-                    val employeeAsGson = Gson().toJson(employee)
-                    val intent = Intent(currentContext, EmployeeDetailActivity::class.java)
-                        .putExtra("employeeAsGson", employeeAsGson)
-                    currentContext.startActivity(intent)
-                }) {
-                    DirectoryItem(employee = employee)
+            if (filteredItems.isNotEmpty()) {
+                stickyHeader {
+                    Text(
+                        text = header.toString(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 44.dp, top = 18.dp, bottom = 12.dp),
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Gray
+                    )
+                }
+                items(items = filteredItems) { employee ->
+                    Surface(modifier = Modifier.clickable {
+                        val employeeAsGson = Gson().toJson(employee)
+                        val intent = Intent(currentContext, EmployeeDetailActivity::class.java)
+                            .putExtra("employeeAsGson", employeeAsGson)
+                        currentContext.startActivity(intent)
+                    }) {
+                        DirectoryItem(employee = employee)
+                    }
                 }
             }
         }

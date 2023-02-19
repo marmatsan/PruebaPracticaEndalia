@@ -4,9 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.ui.graphics.Color
 import com.example.pruebapracticaandroid.data.models.MainViewModel
 import com.example.pruebapracticaandroid.ui.DirectoryScreen
 import com.example.pruebapracticaandroid.ui.theme.PruebaPracticaAndroidTheme
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 class DirectoryActivity : ComponentActivity() {
 
@@ -16,6 +18,9 @@ class DirectoryActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PruebaPracticaAndroidTheme {
+                val systemUiController = rememberSystemUiController()
+                systemUiController.setSystemBarsColor(color = Color.White)
+
                 DirectoryScreen(mainViewModel)
             }
         }

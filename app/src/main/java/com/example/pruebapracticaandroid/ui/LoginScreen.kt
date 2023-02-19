@@ -4,6 +4,7 @@ import android.content.Intent
 import android.util.Patterns
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -29,6 +30,7 @@ fun LoginScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color.White)
             .padding(18.dp)
     ) {
         Login(modifier = Modifier.align(Alignment.Center))
@@ -76,6 +78,13 @@ fun LoginButton(inputData: TextInputData) {
     val currentContext = LocalContext.current
     Button(
         onClick = {
+            currentContext.startActivity(
+                Intent(
+                    currentContext,
+                    DirectoryActivity::class.java
+                )
+            )
+            /*
             val error = inputData.error
 
             if (error == TextInputError.NO_ERROR) {
@@ -133,6 +142,7 @@ fun LoginButton(inputData: TextInputData) {
                     }
                 }
             }
+            */
         },
         modifier = Modifier.fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),

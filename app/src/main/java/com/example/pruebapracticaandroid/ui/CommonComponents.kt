@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
@@ -33,7 +34,7 @@ fun HeaderImage(modifier: Modifier) {
         painter = painterResource(id = R.drawable.endalia_logo_blue),
         contentDescription = "Endalia Logo",
         modifier = modifier
-            .width(320.dp)
+            .width(300.dp)
             .height(120.dp)
 
     )
@@ -101,7 +102,7 @@ fun PasswordField(placeholder : String, passwordState : TextFieldState = remembe
 @Composable
 fun BottomImage(modifier: Modifier) {
     Column(modifier = modifier) {
-        Text(text = "Powered by", color = Color.Gray)
+        Text(text = "Powered by", color = Color.Gray, modifier = Modifier.alpha(0.5f))
         Spacer(modifier = Modifier.padding(4.dp))
         Image(
             painter = painterResource(id = R.drawable.software_logo_endalia_mobile),
