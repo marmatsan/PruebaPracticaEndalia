@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.pruebapracticaandroid.activities.LoginActivity
 import com.example.pruebapracticaandroid.data.models.*
@@ -113,7 +114,7 @@ fun CreateAccountButton(inputData: TextInputData) {
                 }.size == 1
 
                 if (!userEmailExists) { // User not created. Register user
-                    Toast.makeText(currentContext, "Creando usuario", Toast.LENGTH_LONG).show()
+                    Toast.makeText(currentContext, "Usuario creado", Toast.LENGTH_LONG).show()
 
                     val nameAndFirstName = inputData.email.substringBefore("@")
                     val name = nameAndFirstName.substringBefore(".").replaceFirstChar{
@@ -129,7 +130,8 @@ fun CreateAccountButton(inputData: TextInputData) {
                         job = DirectoryData.jobs[Random.nextInt(7)],
                         phone = Random.nextInt(900000000, 1000000000),
                         mail = inputData.email,
-                        password = inputData.password
+                        password = inputData.password,
+                        drawableId = Integer.MIN_VALUE
                     )
 
                     registeredUsers.add(newEmployee)

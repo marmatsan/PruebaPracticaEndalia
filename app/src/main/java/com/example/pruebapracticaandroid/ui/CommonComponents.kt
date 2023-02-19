@@ -5,6 +5,7 @@ import androidx.annotation.ColorInt
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -12,8 +13,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
@@ -41,7 +44,7 @@ fun HeaderImage(modifier: Modifier) {
 }
 
 @Composable
-fun EmailField(emailState : TextFieldState) {
+fun EmailField(emailState: TextFieldState) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -71,7 +74,10 @@ fun EmailField(emailState : TextFieldState) {
 }
 
 @Composable
-fun PasswordField(placeholder : String, passwordState : TextFieldState = remember { TextFieldState() }) {
+fun PasswordField(
+    placeholder: String,
+    passwordState: TextFieldState = remember { TextFieldState() }
+) {
     Row(modifier = Modifier.fillMaxWidth()) {
         Icon(
             painter = painterResource(id = R.drawable.password_logo),
@@ -113,26 +119,39 @@ fun BottomImage(modifier: Modifier) {
 
 @Composable
 fun EmployeeImage(
-
     firstName: String,
     lastName: String,
     modifier: Modifier = Modifier,
     size: Dp = 50.dp,
     textStyle: TextStyle = MaterialTheme.typography.subtitle1,
-    fontSize : TextUnit = 20.sp
+    fontSize: TextUnit = 20.sp,
+    drawableId: Int
 ) {
-    Box(modifier.size(size), contentAlignment = Alignment.Center) {
-        val color = remember(firstName, lastName) {
-            val name = listOf(firstName, lastName)
-                .joinToString(separator = "")
-                .uppercase()
-            Color(name.toHslColor())
+    if (drawableId == Integer.MIN_VALUE) {
+        Box(modifier.size(size), contentAlignment = Alignment.Center) {
+            val color = remember(firstName, lastName) {
+                val name = listOf(firstName, lastName)
+                    .joinToString(separator = "")
+                    .uppercase()
+                Color(name.toHslColor())
+            }
+            val initials = (firstName.take(1) + lastName.take(1)).uppercase()
+            Canvas(modifier = Modifier.fillMaxSize()) {
+                drawCircle(SolidColor(color))
+            }
+            Text(text = initials, style = textStyle, color = Color.White, fontSize = fontSize)
         }
-        val initials = (firstName.take(1) + lastName.take(1)).uppercase()
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            drawCircle(SolidColor(color))
+    } else {
+        Box(modifier.size(size), contentAlignment = Alignment.Center) {
+            Image(
+                painter = painterResource(drawableId),
+                contentDescription = "User Image",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(size)
+                    .clip(CircleShape)
+            )
         }
-        Text(text = initials, style = textStyle, color = Color.White, fontSize = fontSize)
     }
 }
 

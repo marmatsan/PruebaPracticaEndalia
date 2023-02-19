@@ -1,5 +1,7 @@
 package com.example.pruebapracticaandroid.data.models
 
+import androidx.compose.ui.res.painterResource
+import com.example.pruebapracticaandroid.R
 import java.text.Normalizer
 import kotlin.random.Random
 
@@ -225,6 +227,24 @@ object DirectoryData {
     val listOfEmployees = mutableListOf<Employee>()
 
     private fun populateData() {
+        /*
+        En caso de que quisiésemos obtener los datos desde Firebase, podríamos realizarlo de la
+        siguiente manera:
+
+        val db = Firebase.firestore
+
+        db.collection("employees")
+        .get()
+        .addOnSuccessListener { result ->
+            for (document in result) {
+               val employee = document.toObject(Employee::class.java)
+               listOfEmployees.add(employee)
+            }
+        }
+        .addOnFailureListener { exception ->
+            Toast.makeText(context, "No se han podido obtener los datos", Toast.LENGTH_SHORT).show()
+        }
+        */
         val shortedSurnames = surnames.sortedBy { it }
 
         for (number in shortedSurnames.indices) {
@@ -236,7 +256,8 @@ object DirectoryData {
             val firstSurname = Normalizer.normalize(unnormalizedFirstSurname, Normalizer.Form.NFD)
 
             val normalizedName = name.replace(regex = regex, replacement = "").lowercase()
-            val normalizedfirstSurname = firstSurname.replace(regex = regex, replacement = "").lowercase()
+            val normalizedfirstSurname =
+                firstSurname.replace(regex = regex, replacement = "").lowercase()
 
             listOfEmployees.add(
                 Employee(
@@ -245,7 +266,20 @@ object DirectoryData {
                     job = if (number == 99) jobs.last() else jobs[Random.nextInt(7)],
                     phone = Random.nextInt(900000000, 1000000000),
                     mail = normalizedName.plus(".").plus(normalizedfirstSurname).plus("@demo.com"),
-                    password = "1234"
+                    password = "aA2.bcde",
+                    drawableId = when (name) {
+                        "Juan" -> R.drawable.abdullah_ali_1w9i6h4aftw_unsplash__1_
+                        "Ana" -> R.drawable.art_hauntington_jzy0krjopei_unsplash__1_
+                        "Miguel" -> R.drawable.austin_wade_x6uj51n5ce8_unsplash__1_
+                        "Laura" -> R.drawable.ayo_ogunseinde_6w4f62sn_yi_unsplash__1_
+                        "Francisco" -> R.drawable.christian_buehner_ditylc26zvi_unsplash__1_
+                        "Carmen" -> R.drawable.christina_wocintechchat_com_0zx1bdv5bny_unsplash__1_
+                        "Marta" -> R.drawable.christopher_campbell_rdeovte7vos_unsplash__1_
+                        "Lucía" -> R.drawable.edward_cisneros__h6wpor9mjs_unsplash__1_
+                        else -> {
+                            Integer.MIN_VALUE
+                        }
+                    }
                 )
             )
         }

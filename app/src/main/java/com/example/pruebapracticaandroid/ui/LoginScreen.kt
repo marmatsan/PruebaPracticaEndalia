@@ -78,13 +78,6 @@ fun LoginButton(inputData: TextInputData) {
     val currentContext = LocalContext.current
     Button(
         onClick = {
-            currentContext.startActivity(
-                Intent(
-                    currentContext,
-                    DirectoryActivity::class.java
-                )
-            )
-            /*
             val error = inputData.error
 
             if (error == TextInputError.NO_ERROR) {
@@ -142,7 +135,6 @@ fun LoginButton(inputData: TextInputData) {
                     }
                 }
             }
-            */
         },
         modifier = Modifier.fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),

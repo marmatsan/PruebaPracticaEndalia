@@ -53,9 +53,6 @@ fun DirectoryScreen(mainViewModel: MainViewModel) {
                 mainViewModel.updateSearchTextState(newValue = "")
                 mainViewModel.updateSearchWidgetState(newValue = SearchWidgetState.CLOSED)
             },
-            onSearchClicked = {
-                Log.d("Searched Text", it)
-            },
             onSearchTriggered = {
                 mainViewModel.updateSearchWidgetState(newValue = SearchWidgetState.OPENED)
             }
@@ -73,7 +70,6 @@ fun MainAppBar(
     searchTextState: String,
     onTextChange: (String) -> Unit,
     onCloseClicked: () -> Unit,
-    onSearchClicked: (String) -> Unit,
     onSearchTriggered: () -> Unit
 ) {
     when (searchWidgetState) {
@@ -84,8 +80,7 @@ fun MainAppBar(
             SearchAppBar(
                 text = searchTextState,
                 onTextChange = onTextChange,
-                onCloseClicked = onCloseClicked,
-                onSearchClicked = onSearchClicked
+                onCloseClicked = onCloseClicked
             )
         }
     }
@@ -168,8 +163,7 @@ fun AppBar(onSearchClicked: () -> Unit) {
 fun SearchAppBar(
     text: String,
     onTextChange: (String) -> Unit,
-    onCloseClicked: () -> Unit,
-    onSearchClicked: (text: String) -> Unit
+    onCloseClicked: () -> Unit
 ) {
     Surface(
         modifier = Modifier
@@ -216,11 +210,6 @@ fun SearchAppBar(
                 }
             },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-            keyboardActions = KeyboardActions(
-                onSearch = {
-                    onSearchClicked(text)
-                }
-            ),
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.White,
                 textColor = Color.Black

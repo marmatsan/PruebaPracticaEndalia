@@ -101,7 +101,8 @@ fun EmployeeDetails(modifier: Modifier, employee: Employee) {
             lastName = employee.surname,
             size = 120.dp,
             fontSize = 60.sp,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            drawableId = employee.drawableId
         )
         Spacer(modifier = Modifier.padding(4.dp))
         EmployeeName(

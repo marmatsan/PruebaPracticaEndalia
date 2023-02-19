@@ -23,7 +23,8 @@ fun DirectoryItem(employee: Employee) {
     ) {
         EmployeeImage(
             firstName = employee.name,
-            lastName = employee.surname
+            lastName = employee.surname,
+            drawableId = employee.drawableId
         )
         Column(
             modifier = Modifier
