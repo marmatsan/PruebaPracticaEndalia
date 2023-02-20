@@ -171,7 +171,7 @@ fun CreateAccountButton(inputData: TextInputData) {
                     ).show()
                     TextInputError.INVALID_PASSWORD_FORMAT -> Toast.makeText(
                         currentContext,
-                        "La contraseña debe tener al menos una minúscula, mayúscula, un número y un caracter de puntuación",
+                        "La contraseña debe tener minúscula, mayúscula, número y puntuación",
                         Toast.LENGTH_LONG
                     ).show()
                     TextInputError.NOT_MATCHING_PASSWORD -> Toast.makeText(
